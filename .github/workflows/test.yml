@@ -1,0 +1,20 @@
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+  
+jobs:
+  test_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          ORG="kadel-org"
+          SINCE="2023-11-03"
+          LABEL="post-FF"
+          
+          for repo in `gh repo list $ORG --no-archived --json name --template '{{range .}}{{.name}}{{"\n"}}{{end}}'`; do
+              for issue in `gh issue  list --repo $ORG/$repo --search "is:open is:issue created:>=$SINCE" --json number --template '{{range .}}{{.number}}{{"\n"}}{{end}}'`; do
+                      echo "adding $LABEL to https://github.com/$ORG/$repo/issues/$issue"
+                  	#gh issue --repo $ORG/$repo edit $issue --label "$LABEL"
+              done;
+          done;
