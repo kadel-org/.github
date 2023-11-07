@@ -15,6 +15,9 @@ jobs:
           for repo in `gh repo list $ORG --no-archived --json name --template '{{range .}}{{.name}}{{"\n"}}{{end}}'`; do
               for issue in `gh issue  list --repo $ORG/$repo --search "is:open is:issue created:>=$SINCE" --json number --template '{{range .}}{{.number}}{{"\n"}}{{end}}'`; do
                       echo "adding $LABEL to https://github.com/$ORG/$repo/issues/$issue"
-                  	#gh issue --repo $ORG/$repo edit $issue --label "$LABEL"
+                    #gh issue --repo $ORG/$repo edit $issue --label "$LABEL"
               done;
           done;
+          
+        env:
+          GH_TOKEN: ${{ github.token }}
