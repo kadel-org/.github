@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          set -x
+          set -e
           ORG="kadel-org"
           SINCE="2023-11-03"
           LABEL="post-FF"
